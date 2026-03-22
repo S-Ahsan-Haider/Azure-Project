@@ -1,0 +1,11 @@
+# Ignoring virtual env
+my_env/
+venv/
+.venv/
+
+# Ignoring personal notes
+Notes for me.txt
+
+# Ignoring Python cache files 
+__pycache__/
+*.pyc
