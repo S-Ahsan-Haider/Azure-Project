@@ -4,11 +4,11 @@ import numpy as np
 
 app = Flask(__name__)
 
-# Loading model (only once at startup)
+# Loading model (using 'model' as the name for clarity)
 with open('iris_model.pkl', 'rb') as f:
-    moda = pickle.load(f)
+    model = pickle.load(f)
 
-# Simple CSS-styled HTML for a clean mobile look
+# Your HTML remains exactly the same
 HTML_TEMPLATE = '''
 <!DOCTYPE html>
 <html>
@@ -35,7 +35,8 @@ HTML_TEMPLATE = '''
         </form>
         {% if prediction %}
             <div class="result">Prediction: {{ prediction }}</div>
-            <a href="/">Try another</a>
+            <br>
+            <a href="/" style="text-decoration: none; color: #0078d4;">Try another</a>
         {% endif %}
     </div>
 </body>
@@ -44,7 +45,8 @@ HTML_TEMPLATE = '''
 
 @app.route('/')
 def home():
-    return "<h1>Iris Species Predictor</h1><p>Send a POST request to /predict with JSON data.</p>"
+    # FIX 1: This now actually shows your nice form!
+    return render_template_string(HTML_TEMPLATE)
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -56,9 +58,9 @@ def predict():
         float(request.form['p_width']),
     ]
 
-    # No. back to flower name
-    prediction = moda.predict([np.array(features)])
-    target_names = ['Setosa', 'Vesicolor', 'Virginica']
+    # FIX 2: Using the variable 'model' consistently
+    prediction = model.predict([np.array(features)])
+    target_names = ['Setosa', 'Versicolor', 'Virginica']
     result = target_names[prediction[0]]
 
     return render_template_string(HTML_TEMPLATE, prediction=result)
