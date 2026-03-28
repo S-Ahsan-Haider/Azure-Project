@@ -60,7 +60,7 @@ def predict():
 
     # FIX 2: Using the variable 'model' consistently
     prediction = model.predict([np.array(features)])
-    target_names = ['Setosa', 'Versicolor', 'Virginica']
+    target_names = ['setosa', 'versicolor', 'virginica']
     result = target_names[prediction[0]]
 
     return render_template_string(HTML_TEMPLATE, prediction=result)
